@@ -48,4 +48,10 @@ urlpatterns = [
    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     # redoc ui
    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
+    # cached 
+    url(r'^cached/swagger(?P<format>.json|.yaml)$', schema_view.without_ui(cache_timeout=None), name='cschema-json'),
+    url(r'^cached/swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='cschema-swagger-ui'),
+    url(r'^cached/redoc/$', schema_view.with_ui('redoc', cache_timeout=None), name='cschema-redoc'),
+
 ]
