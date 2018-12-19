@@ -123,3 +123,34 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# drf-swagger setting
+# drf-yasg
+from django.urls import reverse_lazy
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': reverse_lazy('admin:login'), #LOGIN
+    'LOGOUT_URL': '/admin/logout',
+    'PERSIST_AUTH': True,
+    'REFETCH_SCHEMA_WITH_AUTH': True,
+    'REFETCH_SCHEMA_ON_LOGOUT': True,
+
+    'DEFAULT_INFO': 'testproj.urls.swagger_info',
+
+    'SECURITY_DEFINITIONS': {
+        'Basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        },
+        'Query': {
+            'type': 'apiKey',
+            'name': 'auth',
+            'in': 'query'
+        },
+        #oath2
+
+    }
+}
