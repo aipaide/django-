@@ -1,0 +1,12 @@
+__pycache__
+*.pyc
+db.*
+.idea
+venv
+*.sqlite3
+attachment
+/media/*
+apps/*/migrations/*
+*.log
+#=====自定义过滤=====>
+*.json
