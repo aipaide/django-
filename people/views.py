@@ -27,8 +27,8 @@ class DjangoFilterDescriptionInspector(CoreAPICompatInspector):
         return NotHandled
 
 class PersonFilter(django_filters.FilterSet):
-    person__first_name=filters.CharFilter(field_name="person__first_name",lookup_expr="exact")
-    person__second_name=filters.CharFilter(field_name="person__second_name",lookup_expr="exact")
+    person__first_name=filters.CharFilter(field_name="identity__first_name",lookup_expr="exact")
+    person__second_name=filters.CharFilter(field_name="identity__second_name",lookup_expr="exact")
     class Meta:
         model = Person
         fields=["person__first_name","person__second_name"]

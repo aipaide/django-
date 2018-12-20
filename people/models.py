@@ -8,4 +8,4 @@ class Identity(models.Model):
 
 
 class Person(models.Model):
-    identity = models.OneToOneField(Identity, related_name='person', on_delete=models.PROTECT)
+    identity = models.OneToOneField(Identity, related_name='person', on_delete=models.PROTECT,verbose_name="identity")
