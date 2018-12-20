@@ -11,6 +11,8 @@ from drf_yasg.app_settings import swagger_settings
 from drf_yasg.inspectors import CoreAPICompatInspector, FieldInspector, NotHandled, SwaggerAutoSchema
 from drf_yasg.utils import no_body, swagger_auto_schema
 
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope,TokenHasResourceScope
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from django.utils.decorators import method_decorator
 
 from .models import Identity, Person
@@ -49,14 +51,16 @@ class PersonViewSet(viewsets.ModelViewSet):
     model = Person
     queryset = Person.objects
     serializer_class = PersonSerializer
-    permission_classes=[permissions.IsAuthenticated,]
+    permission_classes=[permissions.IsAuthenticated,TokenHasResourceScope]
+    required_scopes = ['people',]
+    authentication_classes = [OAuth2Authentication]
     pagination_class = LimitOffsetPagination
     filter_backends = [filters.DjangoFilterBackend,]
     #filter_fields = ('id',)
     filterset_class =PersonFilter
 
 
-    @permission_decorator(permission_classes=[permissions.AllowAny,])
+
     def create(self, request, *args, **kwargs):
         """
         summary of person_create

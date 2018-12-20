@@ -36,7 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
     'oauth2_provider',
+
 
     'rest_framework',
     'drf_yasg',
@@ -130,31 +132,37 @@ SWAGGER_SETTINGS = {
     'LOGOUT_URL': '/admin/logout',  # 登出链接
     'USE_SESSION_AUTH': True,  # 当为TRUE时，将显示django的登录登出按钮，最为收取“认证”方式之一
     'PERSIST_AUTH': False,  # 一直维持认证状态,将“授权”信息存储在local storage中，设置False禁用该功能
-    'REFETCH_SCHEMA_WITH_AUTH': True, # “授权”状态改变时，重新获取API schema
-    'REFETCH_SCHEMA_ON_LOGOUT': True, # 登出时，重新获取API schema
+    'REFETCH_SCHEMA_WITH_AUTH': True,  # “授权”状态改变时，重新获取API schema
+    'REFETCH_SCHEMA_ON_LOGOUT': True,  # 登出时，重新获取API schema
 
-    'DEFAULT_INFO': 'mytestproject.urls.swagger_info', #默认的openapi.info 其标准及含义见OpenAPI-2.0标准
+    'DEFAULT_INFO': 'mytestproject.urls.swagger_info',  # 默认的openapi.info 其标准及含义见OpenAPI-2.0标准
 
-    'SECURITY_DEFINITIONS': { #OpenAPI-2.0标准的安全定义
+    'SECURITY_DEFINITIONS': {  # OpenAPI-2.0标准的全局available安全定义
         'Basic': {
             'type': 'basic'
         },
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        },
-        'Query': {
-            'type': 'apiKey',
-            'name': 'auth',
-            'in': 'query'
-        },
-        # 'oath2':{
-        #
-        # }
+        # 'Bearer': {
+        #     'type': 'apiKey',
+        #     'name': 'Authorization',
+        #     'in': 'header'
+        # },
+        # 'Query': {
+        #     'type': 'apiKey',
+        #     'name': 'auth',
+        #     'in': 'query'
+        # },
+        'Oauth2': {
+            "type": "oauth2",
+            "authorizationUrl": "/o/authorize/",
+            "flow": "implicit",
+            "scopes": {
+                "people:read": "read people",
+                "people:write":"write people"
+            }
+        }
 
     },
-    'VALIDATOR_URL': 'http://localhost:8189',
+
 }
 
 # Logging configuration
@@ -208,14 +216,15 @@ LOGGING = {
     }
 }
 
-#oath2.0
+# oath2.0
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
-    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+    'SCOPES': { "people:read": "read people",
+                "people:write":"write people",}
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    )
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+#     )
+# }
