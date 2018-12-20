@@ -2,8 +2,10 @@ from rest_framework import viewsets
 import django_filters.rest_framework as filters
 import django_filters
 import rest_framework.permissions as permissions
+from rest_framework.decorators import permission_classes as permission_decorator
+from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
-
+from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.app_settings import swagger_settings
 from drf_yasg.inspectors import CoreAPICompatInspector, FieldInspector, NotHandled, SwaggerAutoSchema
@@ -53,6 +55,8 @@ class PersonViewSet(viewsets.ModelViewSet):
     #filter_fields = ('id',)
     filterset_class =PersonFilter
 
+
+    @permission_decorator(permission_classes=[permissions.AllowAny,])
     def create(self, request, *args, **kwargs):
         """
         summary of person_create
@@ -64,6 +68,10 @@ class PersonViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(filter_inspectors=[DjangoFilterDescriptionInspector])
     def list(self, request, *args, **kwargs):
         return super(PersonViewSet,self).list(request,args,kwargs)
+
+    @action(methods=["GET",],detail=False,permission_classes=[permissions.AllowAny,])
+    def custom_view(self,request):
+        return Response(data={"messgage":"hello world!"})
 
 class IdentityViewSet(viewsets.ModelViewSet):
     model = Identity

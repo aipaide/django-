@@ -25,6 +25,8 @@ from rest_framework.documentation import include_docs_urls
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from people.urls import router
+
 swagger_info=openapi.Info(
     title="MyTesting API",
     default_version='1.0.0',
@@ -42,7 +44,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('people/', include('people.urls')),
+    path('people/', include(router.urls)),
 
     #JSON & YAML view of API(/swagger.json & /swagger.yaml)
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
@@ -59,4 +61,7 @@ urlpatterns = [
     url(r'^internal/doc/', include_docs_urls(title='Your API',
                                     authentication_classes=[],
                                     permission_classes=[])),
+
+    #oath2.0
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
