@@ -134,7 +134,7 @@ SWAGGER_SETTINGS = {
     'REFETCH_SCHEMA_WITH_AUTH': True,
     'REFETCH_SCHEMA_ON_LOGOUT': True,
 
-    'DEFAULT_INFO': 'testproj.urls.swagger_info',
+     'DEFAULT_INFO': 'mytestproject.urls.swagger_info',
 
     'SECURITY_DEFINITIONS': {
         'Basic': {
@@ -152,5 +152,57 @@ SWAGGER_SETTINGS = {
         },
         #oath2
 
+    },
+    'VALIDATOR_URL': 'http://localhost:8189',
+}
+
+# Logging configuration
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'pipe_separated': {
+            'format': '%(asctime)s | %(levelname)s | %(name)s | %(message)s'
+        }
+    },
+    'handlers': {
+        'console_log': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stdout',
+            'formatter': 'pipe_separated',
+        },
+    },
+    'loggers': {
+        'drf_yasg': {
+            'handlers': ['console_log'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['console_log'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'handlers': ['console_log'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.template': {
+            'handlers': ['console_log'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'swagger_spec_validator': {
+            'handlers': ['console_log'],
+            'level': 'INFO',
+            'propagate': False,
+        }
+    },
+    'root': {
+        'handlers': ['console_log'],
+        'level': 'INFO',
     }
 }
